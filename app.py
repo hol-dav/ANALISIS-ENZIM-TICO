@@ -60,17 +60,28 @@ else:
 if st.button("🔍 Calcular parámetros cinéticos"):
     try:
         Vmax, Km = ajustar_mm(df)
+
+        # Calcular valores ajustados
+        S = df["Sustrato"].values
+        v_obs = df["Velocidad"].values
+        v_pred = michaelis_menten(S, Vmax, Km)
+
+        # Calcular R²
+        ss_res = np.sum((v_obs - v_pred) ** 2)
+        ss_tot = np.sum((v_obs - np.mean(v_obs)) ** 2)
+        r2 = 1 - (ss_res / ss_tot)
+
+        # Mostrar resultados
         st.success(f"✅ Vmax = {Vmax:.4f}")
         st.success(f"✅ Km = {Km:.4f}")
+        st.info(f"📈 R² del ajuste = {r2:.4f}")
 
         # Graficar ajuste
-        S = df["Sustrato"]
-        v = df["Velocidad"]
         S_fit = np.linspace(0, max(S)*1.1, 100)
         v_fit = michaelis_menten(S_fit, Vmax, Km)
 
         fig, ax = plt.subplots()
-        ax.scatter(S, v, label="Datos experimentales")
+        ax.scatter(S, v_obs, label="Datos experimentales")
         ax.plot(S_fit, v_fit, color="red", label="Ajuste Michaelis-Menten")
         ax.set_xlabel("[S] (concentración de sustrato)")
         ax.set_ylabel("v (velocidad de reacción)")
