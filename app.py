@@ -72,9 +72,9 @@ if st.button("🔍 Calcular parámetros cinéticos"):
         r2 = 1 - (ss_res / ss_tot)
 
         # Mostrar resultados
-        st.success(f"✅ Vmax = {Vmax:.4f}")
-        st.success(f"✅ Km = {Km:.4f}")
-        st.info(f"📈 R² del ajuste = {r2:.4f}")
+        st.success(f"✅ Vmax = {Vmax:.5f}")
+        st.success(f"✅ Km = {Km:.5f}")
+        st.info(f"📈 R² del ajuste = {r2:.5f}")
 
         # Graficar ajuste
         S_fit = np.linspace(0, max(S)*1.1, 100)
@@ -90,3 +90,4 @@ if st.button("🔍 Calcular parámetros cinéticos"):
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
